@@ -2,8 +2,8 @@
 //All modules sandboxed are refer to the single and same core
 
 function Sandbox (scope) {
-	var Core = scope['Core'],
-		Events = scope['Events'];
+	var Core = scope('Core'),
+		Events = scope('Events');
 	
 	var sid = 0;
 	

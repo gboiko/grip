@@ -1,0 +1,10 @@
+{
+	"name" : "grip",
+	"version" : "0.0.1",
+	"core"	: {
+		"base_dir" : "/core/"
+	},
+	"modules" : {
+		"base_dir" : "/modules"
+	}
+}

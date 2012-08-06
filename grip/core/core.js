@@ -1,9 +1,8 @@
 // Implementation of mediator pattern to act as application core
 
 function Core (scope) {
-	
-	var Sandbox = scope['Sandbox'],
-		Events = scope['Events'];
+	var Sandbox = scope('Sandbox.js'),
+		Events = scope('Events.js');
 	
 	var bind = function (func,context){
 		return function(){
@@ -103,7 +102,7 @@ function Core (scope) {
 			
 		}
 		
-	}
+	};
 	
 	var CoreGlobals = {
 		publish: 		bind(Events.publish, Events),
