@@ -1,7 +1,5 @@
-config = require('../../config/config')
-logger = require('./logger')
 mysql_driver = require('mysql')
-redis = require('redis')
+
 
 class MySQLManager
     constructor: () ->
@@ -30,16 +28,3 @@ class MySQLManager
         console.log('Restoring connection')
         clearTimeout(@connection_timer)
         @client = @make_connection()
-
-class RedisManager
-    constructor: () ->
-        conf = config.redis
-        db = redis.createClient()
-        db.select(conf.db)
-        logger('Redis applied'.yellow) 
-        return db
-
-mysql = new MySQLManager()
-redis = new RedisManager()
-
-exports = module.exports = [mysql,redis]
