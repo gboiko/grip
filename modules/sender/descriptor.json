@@ -6,7 +6,7 @@
     },
     "resources": {
         "interval": 1000
-    }
+    },
     "locale": {
     	"ru": "Внимание",
 		"en": "Attantion"  

@@ -4,7 +4,6 @@
 function Sandbox (scope) {
 	var Core = scope('Core'),
 		Events = scope('Events');
-	
 	var sid = 0;
 	
 	var Sandbox = function (descriptor) {
