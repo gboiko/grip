@@ -31,7 +31,7 @@ function Sandbox (scope) {
 	 * @returns {Sandbox}
 	 */
 	Sandbox.prototype.subscribe = function (event,callback) {
-				
+		Events.subscribe(event,callback);
 	};
 	
 	/**
@@ -43,7 +43,7 @@ function Sandbox (scope) {
 	 * @returns {Sandbox}
 	 */
 	Sandbox.prototype.unsubscribe = function (event,callback) {
-		
+		Events.unsubscribe(event,callback);
 	};
 	
 	/**
@@ -55,7 +55,7 @@ function Sandbox (scope) {
 	 * @returns {Sandbox}
 	 */
 	Sandbox.prototype.publish = function (event,data) {
-		
+		Events.publish(event,data);
 	};
 	
 	/**

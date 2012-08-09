@@ -39,7 +39,8 @@ function Core (scope,utils) {
 		 * @returns {Core}
 		 */
 		init: function () {
-			this.loadModules(config.modules.dir);
+			this.loadModules(config.modules.dir,this.modules);
+			this.initModules(this.modules,this.sandboxes);
 		},
 		
 		/**
@@ -50,31 +51,54 @@ function Core (scope,utils) {
 		 * 
 		 * @returns {Boolean} load success/load fails
 		 */
-		loadModules: function (dir) {
+		loadModules: function (dir,modules_dispatcher) {
 			var modules = utils('fs').readdirSync(dir);
 			
 			modules.forEach(function(module){
-				console.log(require(dir+module+'/descriptor.json'));
+				var path_to_module = dir+module+'/',
+					descriptor = require(path_to_module+'descriptor.json'),
+					module_name = descriptor.name;
+				modules_dispatcher[module_name] = {
+					descriptor : descriptor,
+					name 	   : module_name,
+					path 	   : path_to_module  					
+				}
 			});
+			return true;
 		},
 		
 		/**
 		 * initialize modules looking by this.modules
 		 * 
+		 * @params {Object} dict of modules 
+		 * @params {Object} dict of sandboxes
+		 * 
+		 * @returns {Boolean} init success/or fail
 		 */
-		initModules: function () {
-			
+		initModules: function (modules,sandboxes) {
+			var _val,_key,self = this;
+			for (_key in modules) {
+				_val = modules[_key];
+				self.initModule(_key,_val,sandboxes);
+			}
+			return true;
 		},
 		
 		/**
 		 * Init specific module
 		 * 
 		 * @params {String} name of module to be inited
+		 * @params {Object} params of module to be inited
+		 * @params {Object} dict of sandboxes
 		 * 
 		 * @returns {Core}
 		 */
-		initModule: function (name) {
-			
+		initModule: function (name,params,sandboxes) {
+			var sandbox = new Sandbox(params),
+				module = require(params.path+name);
+			sandboxes[name] = sandbox;
+			new module(sandbox);
+			return this			
 		},
 		
 		/**

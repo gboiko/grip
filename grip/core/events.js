@@ -15,6 +15,40 @@ function Events (scope) {
 		channels: {},
 		
 		/**
+		 * Check if channel exist
+		 * 
+		 * @params {String} name of channel
+		 * 
+		 * @returns {Boolean} true/false
+		 */
+		is: function (channel) {
+			if (this.channels[channel]) {return true} else { return false }; 
+		},
+		
+		/**
+		 * Get exisiting channel
+		 * 
+		 *  @params {String} channel name
+		 * 
+		 *  @returns {Object} dict channel 
+		 */
+		getChannel: function (channel) {
+			return this.channels[channel];
+		},
+		
+		/**
+		 * Create channel
+		 * 
+		 * @params {String} channel name
+		 * 
+		 * @returns {Boolean} true
+		 */
+		createChannel: function (channel) {
+			this.channels[channel] = [];
+			return true;
+		},
+		
+		/**
 		 * Event publisher
 		 * 
  		 * @param {String} channel
@@ -24,7 +58,16 @@ function Events (scope) {
          * @returns {Boolean} true if event published false if something bad
 		 */
 		publish: function (channel,data,namespace) {
-			
+			if (this.is(channel)){
+				channel = this.getChannel(channel);
+				for(var i = 0, channel_length = channel.length;
+					i < channel_length; i ++) {
+						var subscriber = channel[i];
+						subscriber(data);
+					}
+			} else {
+				return false;
+			}
 		},
 		
 		/**
@@ -37,7 +80,12 @@ function Events (scope) {
 		 * @returns {Events}
 		 */
 		subscribe: function (channel,callback,namespace) {
-			
+			if (this.is(channel)) {
+				this.getChannel(channel).push(callback);
+			} else {
+				this.createChannel(channel);
+				this.getChannel(channel).push(callback);
+			};			
 		},
 		
 		/**

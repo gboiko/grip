@@ -1,5 +1,5 @@
 {
-    "name": "sender",
+    "name": "getter",
     "action": {
         "trigger:Data": true,
         "listen:destroy": true 
