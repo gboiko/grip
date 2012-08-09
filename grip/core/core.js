@@ -6,8 +6,6 @@ function Core (scope,utils) {
 		Events = scope('Events');
 		config = scope('Config');
 	
-	console.log(utils);
-		
 	var bind = function (func,context){
 		return function(){
 			return func.apply(context,arguments);

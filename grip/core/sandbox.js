@@ -13,13 +13,20 @@ function Sandbox (scope) {
 	
 	/**
 	 * Permission module check 
-	 * @params 
 	 * 
-	 * @returns {Boolean}
+	 * @params {String} type of action
+	 * @params {String} event of action
+	 * 
+	 * @returns {Boolean} true if ok , false if non
 	 */
-	Sandbox.prototype.is = function () {
-		var actions = this.descriptor.actions;
-		return true;
+	Sandbox.prototype.is = function (type,action) {
+		var actions = this.getActions();
+		if (!actions) { return false};
+		if (actions[type+':'+action]) {
+			return true;
+		} else {
+			return false;
+		};
 	};
 	
 	/**	
@@ -31,7 +38,10 @@ function Sandbox (scope) {
 	 * @returns {Sandbox}
 	 */
 	Sandbox.prototype.subscribe = function (event,callback) {
-		Events.subscribe(event,callback);
+		if (this.is('subscribe',event)) {
+			Events.subscribe(event,callback);
+		};
+		return this;		
 	};
 	
 	/**
@@ -43,7 +53,10 @@ function Sandbox (scope) {
 	 * @returns {Sandbox}
 	 */
 	Sandbox.prototype.unsubscribe = function (event,callback) {
-		Events.unsubscribe(event,callback);
+		if (this.is('subscribe',event)) {
+			Events.unsubscribe(event,callback);
+		};
+		return this;	
 	};
 	
 	/**
@@ -55,7 +68,44 @@ function Sandbox (scope) {
 	 * @returns {Sandbox}
 	 */
 	Sandbox.prototype.publish = function (event,data) {
-		Events.publish(event,data);
+		if (this.is('publish',event)) {
+			Events.publish(event,data);
+		};
+		return this;	
+	};
+	
+	/**
+	 * Return truth module descriptor, withour wrapper
+	 * 
+	 * @returns {Object} module descriptor
+	 */
+	Sandbox.prototype.getDescriptor = function () {
+		return this.descriptor.descriptor;
+	};
+	
+	/**
+	 * Checks if descriptor param exist
+	 * 
+	 * @params {String} name of param to check in descriptor
+	 * 
+	 * @returns {Boolean} true if exist / false if no
+	 */
+	Sandbox.prototype.isDescriptor = function (name) {
+		if (this.getDescriptor()[name]) { return true } else { return false};
+	};
+	
+	/**
+	 * Get module actions
+	 * 
+	 * @returns {Object/Boolean} dict or false if no exist 
+	 */
+	Sandbox.prototype.getActions = function () {
+		if (this.isDescriptor('actions')) {
+			return this.getDescriptor().actions;	
+		} else {
+			return false;
+		}
+		
 	};
 	
 	/**
@@ -64,8 +114,11 @@ function Sandbox (scope) {
 	 * @returns {Object} langs dict relay on current settings lang 
 	 */
 	Sandbox.prototype.getLocale = function () {
-		
-		
+		if (this.isDescriptor('locale')) {
+			return this.getDescriptor().locale;
+		} else {
+			return false;
+		};
 	};
 	
 	/**
@@ -73,8 +126,29 @@ function Sandbox (scope) {
 	 * 
 	 * @return {Object} resources dict
 	 */
-	Sandbox.prototype.getResource = function () {
-		
+	Sandbox.prototype.getResources = function () {
+		if (this.isDescriptor('actions')) {
+			return this.getDescriptor().resources;
+		} else {
+			return false;
+		};
+	};
+	
+	/**
+	 * Get specific resource
+	 * 
+	 * @params {String} resource name
+	 * 
+	 * @returns {Object/Boolean} if exist return object / else return false
+	 */	
+	Sandbox.prototype.getResource = function (name) {
+		var resources = this.getResources();
+		if (!resources) { return false; };
+		if (resources[name]) {
+			return resources[name]; 
+		} else {
+			return false;
+		};
 	};
 		
 	return Sandbox;	

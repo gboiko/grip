@@ -3,10 +3,10 @@ var Sender = function(sandbox){
 		setInterval(function(){
 			console.log('Publisher data published');
 			sandbox.publish('data',Math.random());
-		},1000)
+		},sandox.getResource('interval'))
 	};
 	
-	return Sender();
+	return Sender(sandbox);
 };
 
 exports = module.exports = Sender;

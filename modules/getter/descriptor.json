@@ -1,8 +1,9 @@
 {
     "name": "getter",
-    "action": {
-        "trigger:Data": true,
-        "listen:destroy": true 
+    "actions": {
+        "publish:data": true,
+        "subscribe:data": true,
+        "subscribe:destroy": true
     },
     "resources": {
         "interval": 1000

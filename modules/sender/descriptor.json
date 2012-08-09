@@ -1,11 +1,12 @@
 {
     "name": "sender",
-    "action": {
-        "trigger:Data": true,
-        "listen:destroy": true 
+    "actions": {
+        "publish:data": true,
+        "subscribe:data": true,
+        "subscribe:destroy": true
     },
     "resources": {
-        "interval": 1000
+        "interval": 5000
     },
     "locale": {
     	"ru": "Внимание",
