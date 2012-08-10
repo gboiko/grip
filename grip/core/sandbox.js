@@ -1,14 +1,15 @@
 //Basic implementation of facade pattern to act as a sandbox for modules
 //All modules sandboxed are refer to the single and same core
 
-function Sandbox (scope) {
+function Sandbox (scope,utils) {
 	var Core = scope('Core'),
 		Events = scope('Events');
 	var sid = 0;
-	
+
 	var Sandbox = function (descriptor) {
 		this.descriptor = descriptor || {};
 		this.namespaces = this.descriptor.name + ++sid;
+        this.utils = utils;
 	};
 	
 	/**
@@ -26,7 +27,7 @@ function Sandbox (scope) {
 			return true;
 		} else {
 			return false;
-		};
+		}
 	};
 	
 	/**	
@@ -40,7 +41,7 @@ function Sandbox (scope) {
 	Sandbox.prototype.subscribe = function (event,callback) {
 		if (this.is('subscribe',event)) {
 			Events.subscribe(event,callback);
-		};
+		}
 		return this;		
 	};
 	
@@ -55,7 +56,7 @@ function Sandbox (scope) {
 	Sandbox.prototype.unsubscribe = function (event,callback) {
 		if (this.is('subscribe',event)) {
 			Events.unsubscribe(event,callback);
-		};
+		}
 		return this;	
 	};
 	
@@ -70,7 +71,7 @@ function Sandbox (scope) {
 	Sandbox.prototype.publish = function (event,data) {
 		if (this.is('publish',event)) {
 			Events.publish(event,data);
-		};
+		}
 		return this;	
 	};
 	
@@ -91,7 +92,7 @@ function Sandbox (scope) {
 	 * @returns {Boolean} true if exist / false if no
 	 */
 	Sandbox.prototype.isDescriptor = function (name) {
-		if (this.getDescriptor()[name]) { return true } else { return false};
+		if (this.getDescriptor()[name]) { return true } else { return false}
 	};
 	
 	/**
@@ -131,7 +132,7 @@ function Sandbox (scope) {
 			return this.getDescriptor().resources;
 		} else {
 			return false;
-		};
+		}
 	};
 	
 	/**
@@ -148,11 +149,34 @@ function Sandbox (scope) {
 			return resources[name]; 
 		} else {
 			return false;
-		};
+		}
 	};
-		
+
+    /**
+     * Get specific node installed module
+     *
+     * @params {String} module name
+     *
+     * @returns {Function} module
+     */
+    Sandbox.prototype.getModule = function (name) {
+        return this.utils.get(name);
+    };
+
+    /**
+     * Sandbox simple proxy of utils bind method
+     *
+     * @params {Function} function binding
+     * @params {Object} context of binding
+     *
+     * @returns {Function} bind function
+     */
+    Sandbox.prototype.bind = function (fn,context) {
+      return this.utils.bind(fn,context);
+    };
+
 	return Sandbox;	
-};
+}
 
 exports = module.exports = Sandbox;
 

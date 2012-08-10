@@ -22,7 +22,7 @@ function Events (scope) {
 		 * @returns {Boolean} true/false
 		 */
 		is: function (channel) {
-			if (this.channels[channel]) {return true} else { return false }; 
+			if (this.channels[channel]) {return true} else { return false }
 		},
 		
 		/**
@@ -85,7 +85,8 @@ function Events (scope) {
 			} else {
 				this.createChannel(channel);
 				this.getChannel(channel).push(callback);
-			};			
+			};
+            return this;
 		},
 		
 		/**
@@ -103,6 +104,6 @@ function Events (scope) {
 	};
 	
 	return Events;
-};
+}
 
 exports = module.exports = Events;

@@ -1,5 +1,5 @@
 http = require('http')  
-session = require('../../Session/session')
+session = require('../../session/session')
 
 exports = module.exports = (req,res,next) ->
   set_authorized = (dict) ->

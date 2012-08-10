@@ -1,0 +1,22 @@
+{
+    "name": "http",
+    "actions": {
+        "publish:data": true,
+        "subscribe:server_events": true,
+        "subscribe:destroy": true
+    },
+    "extensions": {
+        "dir": "/extensions"
+    },
+    "modules": {
+        "dir": "/modules"
+    },
+    "resources": {
+        "port": 8340,
+        "host": "localhost"
+    },
+    "locale": {
+        "ru": "Внимание",
+        "en": "Attantion"
+    }
+}

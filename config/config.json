@@ -5,6 +5,6 @@
 		"dir" : "/grip/core/"
 	},
 	"modules" : {
-		"dir" : "/modules/"
+		"dir" : "/grip/modules/"
 	}
 }
