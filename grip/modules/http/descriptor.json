@@ -21,7 +21,7 @@
 		"static"  : "middleware/static"
 	},
     "resources": {
-        "port": 8340,
+        "port": 8341,
         "host": "localhost"
     },
     "locale": {

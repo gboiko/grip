@@ -10,6 +10,7 @@ function Sandbox (scope,utils) {
 		this.descriptor = descriptor || {};
 		this.namespaces = this.descriptor.name + ++sid;
         this.utils = utils;
+        this.extensions = {};
 	};
 	
 	/**
@@ -184,26 +185,53 @@ function Sandbox (scope,utils) {
     };
 
     /**
-     * Returns additions module extensions
+     * Make additions module extensions
      *
      * @params {String} extension name
      *
      * @returns {Object/Boolean} return Object of module additions or false
      */
-    Sandbox.prototype.getExtension = function (name) {
+    Sandbox.prototype.makeExtension = function (name) {
         if (!name) return false;
-        var descriptor = this.getDescriptor();
+        var descriptor = this.getDescriptor(),
+            sandbox = this;
         if (descriptor[name]) {
             var ext = null,
                 exts = {},
                 path = this.getPath();
             for (ext in descriptor[name]) {
-                exts[ext] = require(path+descriptor[name][ext]);
+                exts[ext] = require(path+descriptor[name][ext])(sandbox);
             }
+            this.setExtension(name,exts);
             return exts;
         } else {
             return false
         }
+    };
+
+    /**
+     * Get local storage extensions
+     *
+     * @params {String} name of extension
+     *
+     * @returns {Object/Boolean} extensions object or false
+     */
+    Sandbox.prototype.getExtension = function (name) {
+        if (this.extensions[name]) return this.extensions[name];
+        return this.makeExtension(name);
+    };
+
+    /**
+     * Saving loaded extensions
+     *
+     * @params {String} name of extensions
+     * @params {Object} extensions object
+     *
+     * @returns {Sandbox}
+     */
+    Sandbox.prototype.setExtension = function (name,ext) {
+        this.extensions[name] = ext;
+        return this;
     };
 
 	return Sandbox;	

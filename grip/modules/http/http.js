@@ -31,22 +31,23 @@ var ContextMaker = function (req,res,server) {
 
 var Server = function(sandbox){
     function Server(sandbox){
-        console.log('starting it devil machine');
-        var http = sandbox.getModule('http');
+        var http = sandbox.getModule('http'),
+            port = sandbox.getResource('port'),
+            host = sandbox.getResource('host');
         this.caller = sandbox.bind(this.caller,this);
-        http = http.createServer(this.caller).listen(8340);
         this.user_register = UserRegister(this);
+        this.init();
+        http = http.createServer(this.caller).listen(port,host);
         return this;
     }
 
+    Server.prototype.init = function () {
+        sandbox.getExtension('extensions');
+        sandbox.getExtension('modules');
+    };
+
     Server.prototype.caller = function (req,res) {
-        console.log(sandbox.getExtension());
-        console.log(sandbox.getExtension('modules'));
-        console.log(sandbox.getExtension('extensions'));
-        console.log(sandbox.getExtension('middleware'));
-        //console.log(this.get_context_modules());
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('asd');
+        res.send('Ok boy extensions seems to fosdrk');
     };
 
     Server.prototype.generate_context = function (req,res) {

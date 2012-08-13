@@ -69,4 +69,4 @@ var Cookie = function(name,value,args){
     };
 };
 
-exports = module.exports = Cookies();
+exports = module.exports = Cookies;
