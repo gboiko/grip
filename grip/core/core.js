@@ -53,7 +53,7 @@ function Core (scope,utils) {
                     descriptor = null,
                     module_name = null;
 
-                try {
+               try {
                     descriptor = require(path_to_module + 'descriptor.json');
                     module_name = descriptor.name;
                     modules_dispatcher[module_name] = {
@@ -61,9 +61,9 @@ function Core (scope,utils) {
                         name:module_name,
                         path:path_to_module
                     }
-                } catch (exp) {
+               } catch (exp) {
                     console.log(exp)
-                }
+               }
             });
             return true;
         },

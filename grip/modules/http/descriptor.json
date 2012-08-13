@@ -6,11 +6,20 @@
         "subscribe:destroy": true
     },
     "extensions": {
-        "dir": "/extensions"
+        "request"  : "extensions/request",
+	    "response" : "extensions/response"
     },
     "modules": {
-        "dir": "/modules"
+        "auth"      : "modules/auth",
+	    "bodyparse" : "modules/bodyparser",
+	    "routing"   : "modules/routing"
     },
+	"middleware": {
+		"cookies" : "middleware/cookies",
+		"render"  : "middleware/render",
+		"router"  : "middleware/router",
+		"static"  : "middleware/static"
+	},
     "resources": {
         "port": 8340,
         "host": "localhost"

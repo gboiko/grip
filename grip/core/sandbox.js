@@ -83,7 +83,15 @@ function Sandbox (scope,utils) {
 	Sandbox.prototype.getDescriptor = function () {
 		return this.descriptor.descriptor;
 	};
-	
+
+    /**
+     * Returns path to module
+     * @return {String} path to module
+     */
+    Sandbox.prototype.getPath = function () {
+        return this.descriptor.path;
+    };
+
 	/**
 	 * Checks if descriptor param exist
 	 * 
@@ -128,7 +136,7 @@ function Sandbox (scope,utils) {
 	 * @return {Object} resources dict
 	 */
 	Sandbox.prototype.getResources = function () {
-		if (this.isDescriptor('actions')) {
+		if (this.isDescriptor('resources')) {
 			return this.getDescriptor().resources;
 		} else {
 			return false;
@@ -172,7 +180,30 @@ function Sandbox (scope,utils) {
      * @returns {Function} bind function
      */
     Sandbox.prototype.bind = function (fn,context) {
-      return this.utils.bind(fn,context);
+        return this.utils.bind(fn,context);
+    };
+
+    /**
+     * Returns additions module extensions
+     *
+     * @params {String} extension name
+     *
+     * @returns {Object/Boolean} return Object of module additions or false
+     */
+    Sandbox.prototype.getExtension = function (name) {
+        if (!name) return false;
+        var descriptor = this.getDescriptor();
+        if (descriptor[name]) {
+            var ext = null,
+                exts = {},
+                path = this.getPath();
+            for (ext in descriptor[name]) {
+                exts[ext] = require(path+descriptor[name][ext]);
+            }
+            return exts;
+        } else {
+            return false
+        }
     };
 
 	return Sandbox;	

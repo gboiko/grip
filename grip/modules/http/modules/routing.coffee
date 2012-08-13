@@ -1,6 +1,6 @@
 parse = require('url').parse
-router = require('./router')
-static_dispatcher = require('./static_dispatcher/static')
+router = require('./../middleware/router')
+static_dispatcher = require('./../middleware/static')
 
 exports = module.exports = (req,res,next) ->
   path = parse(req.url).pathname
